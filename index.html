@@ -1,0 +1,364 @@
+
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF Tools - Convert, Compress & Merge PDFs</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+    color: #1e2937;
+    line-height: 1.6;
+}
+
+header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 16px 5%;
+}
+
+nav {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #e5322d, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo i {
+    font-size: 32px;
+}
+
+.nav-links a {
+    margin-left: 32px;
+    text-decoration: none;
+    color: #475569;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #e5322d;
+}
+
+/* HERO */
+.hero {
+    padding: 100px 5% 80px;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 3.2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.2;
+    background: linear-gradient(90deg, #1e2937, #334155);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    font-size: 1.25rem;
+    color: #64748b;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn {
+    background: linear-gradient(90deg, #e5322d, #f97316);
+    color: white;
+    padding: 16px 36px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(229, 50, 45, 0.25);
+    transition: all 0.4s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(229, 50, 45, 0.35);
+}
+
+/* TOOLS SECTION */
+.tools {
+    padding: 60px 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 50px;
+    color: #1e2937;
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    transition: all 0.4s ease;
+    border: 1px solid #f1f5f9;
+}
+
+.card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    border-color: #e5322d;
+}
+
+.card-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #fef3f2, #fff7ed);
+    color: #e5322d;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    margin: 0 auto 20px;
+}
+
+.card h3 {
+    font-size: 1.35rem;
+    margin-bottom: 12px;
+    color: #1e2937;
+}
+
+.card p {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+}
+
+.card a {
+    display: inline-block;
+    background: #e5322d;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.card a:hover {
+    background: #c92a25;
+    transform: scale(1.05);
+}
+
+/* HOW IT WORKS */
+.how {
+    padding: 80px 5%;
+    background: white;
+    margin-top: 40px;
+}
+
+.how-grid {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.step {
+    text-align: center;
+    max-width: 220px;
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #e5322d, #f97316);
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    box-shadow: 0 8px 20px rgba(229, 50, 45, 0.3);
+}
+
+.step h3 {
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.step p {
+    color: #64748b;
+}
+
+/* FOOTER */
+footer {
+    background: #0f172a;
+    color: #94a3b8;
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 60px;
+}
+
+footer p {
+    margin-bottom: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.4rem;
+    }
+    .nav-links a {
+        margin-left: 20px;
+        font-size: 0.95rem;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <nav>
+    <div class="logo">
+      <i class="fa-solid fa-file-pdf"></i>
+      PDF Tools
+    </div>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">All Tools</a>
+      <a href="#">Pricing</a>
+      <a href="#">Blog</a>
+    </div>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Powerful PDF Tools,<br>Made Simple</h1>
+  <p>Convert, compress, merge, split, and edit your PDFs in seconds — completely free and secure.</p>
+  <button class="btn">
+    <i class="fa-solid fa-bolt"></i>
+    Start Working Now
+  </button>
+</section>
+
+<!-- TOOLS -->
+<section class="tools">
+  <h2 class="section-title">Popular Tools</h2>
+  
+  <div class="tools-grid">
+    <div class="card">
+      <div class="card-icon">
+        <i class="fa-solid fa-file-word"></i>
+      </div>
+      <h3>PDF to Word</h3>
+      <p>Convert PDF to editable Word document with perfect formatting</p>
+      <a href="pdf-to-word.html">Use Tool →</a>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">
+        <i class="fa-solid fa-compress"></i>
+      </div>
+      <h3>Compress PDF</h3>
+      <p>Reduce PDF file size while maintaining quality</p>
+      <a href="compress-pdf.html">Use Tool →</a>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">
+        <i class="fa-solid fa-object-group"></i>
+      </div>
+      <h3>Merge PDF</h3>
+      <p>Combine multiple PDFs into one file instantly</p>
+      <a href="merge-pdf.html">Use Tool →</a>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">
+        <i class="fa-solid fa-scissors"></i>
+      </div>
+      <h3>Merge Selected Pages</h3>
+      <p>Select specific pages and merge them into a new PDF</p>
+      <a href="merge-selected.html">Use Tool →</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <h2 class="section-title">How It Works</h2>
+  <div class="how-grid">
+    <div class="step">
+      <div class="step-number">1</div>
+      <h3>Upload</h3>
+      <p>Drag & drop or select your PDF files</p>
+    </div>
+    <div class="step">
+      <div class="step-number">2</div>
+      <h3>Process</h3>
+      <p>Choose your tool and let us handle the rest</p>
+    </div>
+    <div class="step">
+      <div class="step-number">3</div>
+      <h3>Download</h3>
+      <p>Get your processed file instantly</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 PDF Tools • All Rights Reserved</p>
+  <p>Made with ❤️ for fast and secure PDF management</p>
+</footer>
+
+</body>
+</html>
