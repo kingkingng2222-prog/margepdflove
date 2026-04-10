@@ -374,7 +374,7 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `Merged-PDF-${new Date().toISOString().slice(0,10)}.pdf`;
+        a.download = `king-pdf-${new Date().toISOString().slice(0,10)}.pdf`;
         a.click();
         URL.revokeObjectURL(url);
 
