@@ -232,20 +232,28 @@ document.getElementById("password").value
 
 try{
 
-const response =
-await fetch(STUDENT_API,{
-method:"POST",
+const url =
+STUDENT_API +
+"?action=register" +
+"&name=" + encodeURIComponent(document.getElementById("name").value) +
+"&phone=" + encodeURIComponent(document.getElementById("phone").value) +
+"&category=" + encodeURIComponent(document.getElementById("category").value) +
+"&classValue=" + encodeURIComponent(document.getElementById("classValue").value) +
+"&password=" + encodeURIComponent(document.getElementById("password").value);
 
-body:JSON.stringify(data)
+const response = await fetch(url);
+const result = await response.json();
 
-});
+alert(result.message);
 
 const result =
 await response.json();
 
 alert(result.message);
 
-}catch(error){
+
+}
+catch(error){
 
 alert("Registration Error");
 
@@ -256,22 +264,16 @@ alert("Registration Error");
 async function loginUser(){
 
 try{
+const url =
+STUDENT_API +
+"?action=login" +
+"&phone=" +
+encodeURIComponent(document.getElementById("loginPhone").value) +
+"&password=" +
+encodeURIComponent(document.getElementById("loginPassword").value);
 
-const response =
-await fetch(STUDENT_API,{
-method:"POST",
-
-body:JSON.stringify({
-
-action:"login",
-
-phone:
-document.getElementById("loginPhone").value,
-
-password:
-document.getElementById("loginPassword").value
-
-})
+const response = await fetch(url);
+const result = await response.json();
 
 });
 
@@ -367,3 +369,4 @@ document.getElementById("notes")
 
 </body>
 </html>
+
