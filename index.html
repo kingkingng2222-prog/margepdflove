@@ -1,364 +1,369 @@
+<!DOCTYPE html>
 
-<html>
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDF Tools - Convert, Compress & Merge PDFs</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Student Notes Portal</title>
+
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
-body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
-    color: #1e2937;
-    line-height: 1.6;
+body{
+background:#f5f5f5;
+padding:20px;
 }
 
-header {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    border-bottom: 1px solid #e2e8f0;
-    padding: 16px 5%;
+.container{
+max-width:600px;
+margin:auto;
 }
 
-nav {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.card{
+background:#fff;
+padding:20px;
+border-radius:10px;
+margin-bottom:20px;
+box-shadow:0 2px 10px rgba(0,0,0,.1);
 }
 
-.logo {
-    font-size: 28px;
-    font-weight: 700;
-    background: linear-gradient(90deg, #e5322d, #f97316);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+h2{
+margin-bottom:15px;
+text-align:center;
 }
 
-.logo i {
-    font-size: 32px;
+input,select,button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:1px solid #ccc;
+border-radius:5px;
 }
 
-.nav-links a {
-    margin-left: 32px;
-    text-decoration: none;
-    color: #475569;
-    font-weight: 500;
-    transition: color 0.3s;
+button{
+background:#0066ff;
+color:#fff;
+border:none;
+cursor:pointer;
+font-weight:bold;
 }
 
-.nav-links a:hover {
-    color: #e5322d;
+button:hover{
+opacity:.9;
 }
 
-/* HERO */
-.hero {
-    padding: 100px 5% 80px;
-    text-align: center;
-    max-width: 900px;
-    margin: 0 auto;
+#dashboard{
+display:none;
 }
 
-.hero h1 {
-    font-size: 3.2rem;
-    font-weight: 700;
-    margin-bottom: 16px;
-    line-height: 1.2;
-    background: linear-gradient(90deg, #1e2937, #334155);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+.note{
+display:block;
+padding:12px;
+background:#f0f0f0;
+margin-top:10px;
+border-radius:5px;
+text-decoration:none;
+color:#000;
+font-weight:bold;
 }
 
-.hero p {
-    font-size: 1.25rem;
-    color: #64748b;
-    margin-bottom: 40px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+.note:hover{
+background:#e0e0e0;
 }
 
-.btn {
-    background: linear-gradient(90deg, #e5322d, #f97316);
-    color: white;
-    padding: 16px 36px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 10px 25px rgba(229, 50, 45, 0.25);
-    transition: all 0.4s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
+#welcome{
+text-align:center;
+margin-bottom:15px;
 }
 
-.btn:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 15px 35px rgba(229, 50, 45, 0.35);
-}
-
-/* TOOLS SECTION */
-.tools {
-    padding: 60px 5%;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-.section-title {
-    text-align: center;
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin-bottom: 50px;
-    color: #1e2937;
-}
-
-.tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-}
-
-.card {
-    background: white;
-    border-radius: 20px;
-    padding: 32px 24px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-    transition: all 0.4s ease;
-    border: 1px solid #f1f5f9;
-}
-
-.card:hover {
-    transform: translateY(-12px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-    border-color: #e5322d;
-}
-
-.card-icon {
-    width: 70px;
-    height: 70px;
-    background: linear-gradient(135deg, #fef3f2, #fff7ed);
-    color: #e5322d;
-    font-size: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 16px;
-    margin: 0 auto 20px;
-}
-
-.card h3 {
-    font-size: 1.35rem;
-    margin-bottom: 12px;
-    color: #1e2937;
-}
-
-.card p {
-    color: #64748b;
-    font-size: 0.95rem;
-    margin-bottom: 24px;
-}
-
-.card a {
-    display: inline-block;
-    background: #e5322d;
-    color: white;
-    padding: 12px 28px;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s;
-}
-
-.card a:hover {
-    background: #c92a25;
-    transform: scale(1.05);
-}
-
-/* HOW IT WORKS */
-.how {
-    padding: 80px 5%;
-    background: white;
-    margin-top: 40px;
-}
-
-.how-grid {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-.step {
-    text-align: center;
-    max-width: 220px;
-}
-
-.step-number {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, #e5322d, #f97316);
-    color: white;
-    font-size: 1.8rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    margin: 0 auto 20px;
-    box-shadow: 0 8px 20px rgba(229, 50, 45, 0.3);
-}
-
-.step h3 {
-    margin-bottom: 10px;
-    font-size: 1.3rem;
-}
-
-.step p {
-    color: #64748b;
-}
-
-/* FOOTER */
-footer {
-    background: #0f172a;
-    color: #94a3b8;
-    text-align: center;
-    padding: 40px 20px;
-    margin-top: 60px;
-}
-
-footer p {
-    margin-bottom: 8px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .hero h1 {
-        font-size: 2.4rem;
-    }
-    .nav-links a {
-        margin-left: 20px;
-        font-size: 0.95rem;
-    }
-}
 </style>
+
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
-  <nav>
-    <div class="logo">
-      <i class="fa-solid fa-file-pdf"></i>
-      PDF Tools
-    </div>
-    <div class="nav-links">
-      <a href="#">Home</a>
-      <a href="#">All Tools</a>
-      <a href="#">Pricing</a>
-      <a href="#">Blog</a>
-    </div>
-  </nav>
-</header>
+<div class="container">
 
-<!-- HERO -->
-<section class="hero">
-  <h1>Powerful PDF Tools,<br>Made Simple</h1>
-  <p>Convert, compress, merge, split, and edit your PDFs in seconds — completely free and secure.</p>
-  <button class="btn">
-    <i class="fa-solid fa-bolt"></i>
-    Start Working Now
-  </button>
-</section>
+<div class="card">
 
-<!-- TOOLS -->
-<section class="tools">
-  <h2 class="section-title">Popular Tools</h2>
-  
-  <div class="tools-grid">
-    <div class="card">
-      <div class="card-icon">
-        <i class="fa-solid fa-file-word"></i>
-      </div>
-      <h3>PDF to Word</h3>
-      <p>Convert PDF to editable Word document with perfect formatting</p>
-      <a href="pdf-to-word.html">Use Tool →</a>
-    </div>
+<h2>Registration</h2>
 
-    <div class="card">
-      <div class="card-icon">
-        <i class="fa-solid fa-compress"></i>
-      </div>
-      <h3>Compress PDF</h3>
-      <p>Reduce PDF file size while maintaining quality</p>
-      <a href="compress-pdf.html">Use Tool →</a>
-    </div>
+<input type="text" id="name" placeholder="Name">
 
-    <div class="card">
-      <div class="card-icon">
-        <i class="fa-solid fa-object-group"></i>
-      </div>
-      <h3>Merge PDF</h3>
-      <p>Combine multiple PDFs into one file instantly</p>
-      <a href="merge-pdf.html">Use Tool →</a>
-    </div>
+<input type="text" id="phone" placeholder="Phone Number">
 
-    <div class="card">
-      <div class="card-icon">
-        <i class="fa-solid fa-scissors"></i>
-      </div>
-      <h3>Merge Selected Pages</h3>
-      <p>Select specific pages and merge them into a new PDF</p>
-      <a href="merge-selected.html">Use Tool →</a>
-    </div>
-  </div>
-</section>
+<select id="category" onchange="loadOptions()">
 
-<!-- HOW IT WORKS -->
-<section class="how">
-  <h2 class="section-title">How It Works</h2>
-  <div class="how-grid">
-    <div class="step">
-      <div class="step-number">1</div>
-      <h3>Upload</h3>
-      <p>Drag & drop or select your PDF files</p>
-    </div>
-    <div class="step">
-      <div class="step-number">2</div>
-      <h3>Process</h3>
-      <p>Choose your tool and let us handle the rest</p>
-    </div>
-    <div class="step">
-      <div class="step-number">3</div>
-      <h3>Download</h3>
-      <p>Get your processed file instantly</p>
-    </div>
-  </div>
-</section>
+<option value="">Select Category</option>
 
-<!-- FOOTER -->
-<footer>
-  <p>© 2026 PDF Tools • All Rights Reserved</p>
-  <p>Made with ❤️ for fast and secure PDF management</p>
-</footer>
+<option value="School">Class 5-12</option>
+
+<option value="Graduation">Graduation</option>
+
+<option value="Masters">Masters</option>
+
+</select>
+
+<select id="classValue">
+<option value="">Select Option</option>
+</select>
+
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="registerUser()">
+Register
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>Login</h2>
+
+<input type="text" id="loginPhone" placeholder="Phone Number">
+
+<input type="password"
+id="loginPassword"
+placeholder="Password">
+
+<button onclick="loginUser()">
+Login
+</button>
+
+</div>
+
+<div class="card" id="dashboard">
+
+<h2 id="welcome"></h2>
+
+<div id="notes"></div>
+
+</div>
+
+</div>
+
+<script>
+
+const STUDENT_API =
+"https://script.google.com/macros/s/AKfycbzP8kqlSQief10B7Ey_umeX4LY4zEB7EcSf_Hn96r71oJQdaZp11Oz_zHN9ZrJ6Hwex/exec";
+
+const NOTES_API =
+"https://script.google.com/macros/s/AKfycbwAaHIUc5gL9-a7ZzZKLzc66ETOOArfkzDZe4_Z2QFC_akEbrPFaTbbEmRpNR1-BkAAkg/exec";
+
+function loadOptions(){
+
+const category =
+document.getElementById("category").value;
+
+let html =
+'<option value="">Select Option</option>';
+
+if(category==="School"){
+
+for(let i=5;i<=12;i++){
+
+html +=
+`<option value="${i}">
+Class ${i}
+</option>`;
+
+}
+
+}
+
+if(category==="Graduation"){
+
+for(let i=1;i<=6;i++){
+
+html +=
+`<option value="Sem-${i}">
+Semester ${i}
+</option>`;
+
+}
+
+}
+
+if(category==="Masters"){
+
+for(let i=1;i<=4;i++){
+
+html +=
+`<option value="MSem-${i}">
+Masters Semester ${i}
+</option>`;
+
+}
+
+}
+
+document.getElementById("classValue")
+.innerHTML = html;
+
+}
+
+async function registerUser(){
+
+const data = {
+
+action:"register",
+
+name:
+document.getElementById("name").value,
+
+phone:
+document.getElementById("phone").value,
+
+category:
+document.getElementById("category").value,
+
+classValue:
+document.getElementById("classValue").value,
+
+password:
+document.getElementById("password").value
+
+};
+
+try{
+
+const response =
+await fetch(STUDENT_API,{
+method:"POST",
+
+body:JSON.stringify(data)
+
+});
+
+const result =
+await response.json();
+
+alert(result.message);
+
+}catch(error){
+
+alert("Registration Error");
+
+}
+
+}
+
+async function loginUser(){
+
+try{
+
+const response =
+await fetch(STUDENT_API,{
+method:"POST",
+
+body:JSON.stringify({
+
+action:"login",
+
+phone:
+document.getElementById("loginPhone").value,
+
+password:
+document.getElementById("loginPassword").value
+
+})
+
+});
+
+const result =
+await response.json();
+
+if(!result.status){
+
+alert("Login Failed");
+
+return;
+
+}
+
+document.getElementById("dashboard")
+.style.display="block";
+
+document.getElementById("welcome")
+.innerHTML =
+"Welcome " + result.name;
+
+loadNotes(result.classValue);
+
+}catch(error){
+
+alert("Login Error");
+
+}
+
+}
+
+async function loadNotes(classValue){
+
+try{
+
+const response =
+await fetch(NOTES_API,{
+
+method:"POST",
+
+body:JSON.stringify({
+
+action:"getNotes",
+
+classValue:classValue
+
+})
+
+});
+
+const notes =
+await response.json();
+
+let html = "";
+
+if(notes.length===0){
+
+html =
+"<p>No Notes Available</p>";
+
+}else{
+
+notes.forEach(note=>{
+
+html +=
+
+`<a class="note"
+href="${note.url}"
+target="_blank">
+
+${note.subject}
+
+</a>`;
+
+});
+
+}
+
+document.getElementById("notes")
+.innerHTML = html;
+
+}catch(error){
+
+document.getElementById("notes")
+.innerHTML =
+"Error Loading Notes";
+
+}
+
+}
+
+</script>
 
 </body>
 </html>
