@@ -2821,92 +2821,169 @@
         /* ============================================
            CONTACT FORM
            ============================================ */
-         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw6bgfQfHuIQYxTIejKter954pWxvktidP2rqgJ4DNgKmxdx2MaHlMmCXndic8Jm7doVw/exec";
+         /* ============================================
+   CONTACT FORM - GOOGLE SHEET
+   ============================================ */
 
-    function initContactForm() {
-        const form = document.getElementById('contactForm');
+const GOOGLE_SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbzlqf0-vXMSLXxE1-hJw60NfwWBgFH6n_7F4ofP_I-bfNT5791ZFBzhMw-ZJSOWsrHIOQ/exec";
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
 
-            const name = document.getElementById('formName').value.trim();
-            const phone = document.getElementById('formPhone').value.trim();
-            const email = document.getElementById('formEmail').value.trim();
-            const course = document.getElementById('formCourse').value;
-            const message = document.getElementById('formMessage').value.trim();
+function initContactForm() {
 
-            /* Validate Name */
-            if (!name) {
-                showToast('Please enter your name.', true);
-                document.getElementById('formName').focus();
-                return;
-            }
+    const form = document.getElementById("contactForm");
 
-            /* Validate Phone */
-            const cleanPhone = phone.replace(/\D/g, '');
-
-            if (cleanPhone.length < 10) {
-                showToast('Please enter a valid phone number.', true);
-                document.getElementById('formPhone').focus();
-                return;
-            }
-
-            /* Prevent double submission */
-            const submitButton = form.querySelector('button[type="submit"]');
-            const originalButtonHTML = submitButton.innerHTML;
-
-            submitButton.disabled = true;
-            submitButton.innerHTML =
-                '<i class="fas fa-spinner fa-spin"></i> Sending...';
-
-            /* Data to Google Sheet */
-            const enquiryData = {
-                name: name,
-                phone: phone,
-                email: email,
-                course: course,
-                message: message
-            };
-
-            try {
-
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'text/plain;charset=utf-8'
-                    },
-                    body: JSON.stringify(enquiryData)
-                });
-
-                /*
-                 * no-cors means browser cannot read the response,
-                 * but the request will be sent to Google Apps Script.
-                 */
-
-                showToast(
-                    'Thank you, ' + name +
-                    '! Your enquiry has been submitted successfully.'
-                );
-
-                form.reset();
-
-            } catch (error) {
-
-                console.error('Google Sheet Error:', error);
-
-                showToast(
-                    'Something went wrong. Please try again.',
-                    true
-                );
-
-            } finally {
-
-                submitButton.disabled = false;
-                submitButton.innerHTML = originalButtonHTML;
-            }
-        });
+    if (!form) {
+        console.error("Contact form not found!");
+        return;
     }
+
+
+    form.addEventListener("submit", function(e) {
+
+        e.preventDefault();
+
+
+        /* GET FORM DATA */
+
+        const name =
+            document.getElementById("formName").value.trim();
+
+        const phone =
+            document.getElementById("formPhone").value.trim();
+
+        const email =
+            document.getElementById("formEmail").value.trim();
+
+        const course =
+            document.getElementById("formCourse").value.trim();
+
+        const message =
+            document.getElementById("formMessage").value.trim();
+
+
+        /* NAME VALIDATION */
+
+        if (!name) {
+
+            showToast("Please enter your name.", true);
+
+            document.getElementById("formName").focus();
+
+            return;
+        }
+
+
+        /* PHONE VALIDATION */
+
+        const cleanPhone =
+            phone.replace(/\D/g, "");
+
+        if (cleanPhone.length < 10) {
+
+            showToast(
+                "Please enter a valid phone number.",
+                true
+            );
+
+            document.getElementById("formPhone").focus();
+
+            return;
+        }
+
+
+        /* BUTTON */
+
+        const submitButton =
+            form.querySelector('button[type="submit"]');
+
+        const originalButtonHTML =
+            submitButton.innerHTML;
+
+        submitButton.disabled = true;
+
+        submitButton.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+
+        /* DATA */
+
+        const enquiryData = {
+
+            name: name,
+
+            phone: phone,
+
+            email: email,
+
+            course: course,
+
+            message: message
+
+        };
+
+
+        console.log("Enquiry Data:", enquiryData);
+
+
+        /* SEND DATA TO GOOGLE SHEET */
+
+        fetch(GOOGLE_SCRIPT_URL, {
+
+            method: "POST",
+
+            mode: "no-cors",
+
+            headers: {
+                "Content-Type":
+                "text/plain;charset=utf-8"
+            },
+
+            body: JSON.stringify(enquiryData)
+
+        })
+
+
+        .then(function() {
+
+            showToast(
+                "Thank you, " +
+                name +
+                "! Your enquiry has been submitted successfully."
+            );
+
+            form.reset();
+
+        })
+
+
+        .catch(function(error) {
+
+            console.error(
+                "Google Sheet Error:",
+                error
+            );
+
+            showToast(
+                "Something went wrong. Please try again.",
+                true
+            );
+
+        })
+
+
+        .finally(function() {
+
+            submitButton.disabled = false;
+
+            submitButton.innerHTML =
+                originalButtonHTML;
+
+        });
+
+    });
+
+}
         /* ============================================
            TOAST NOTIFICATIONS
            ============================================ */
