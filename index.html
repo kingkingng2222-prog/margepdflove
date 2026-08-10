@@ -2195,76 +2195,72 @@
         let galleryImages = [];
 
         /* Faculty placeholder data */
-        const facultyData = [
-            {
-                name: 'Dr. Rajesh Kumar',
-                subject: 'Mathematics',
-                qualification: 'M.Sc, Ph.D (Mathematics)',
-                experience: '14 Years',
-                photo: './assets/faculty/rajesh-kumar.jpg'
-            },
-            {
-                name: 'Prof. Suman Devi',
-                subject: 'English Language',
-                qualification: 'M.A (English), B.Ed',
-                experience: '11 Years',
-                photo: './assets/faculty/suman-devi.jpg'
-            },
-            {
-                name: 'Amitava Sarkar',
-                subject: 'Reasoning & Aptitude',
-                qualification: 'M.Tech, MBA',
-                experience: '9 Years',
-                photo: './assets/faculty/amitava-sarkar.jpg'
-            },
-            {
-                name: 'Dr. Nandini Bhatt',
-                subject: 'General Awareness',
-                qualification: 'M.A, Ph.D (Political Science)',
-                experience: '12 Years',
-                photo: './assets/faculty/nandini-bhatt.jpg'
-            },
-            {
-                name: 'Ravi Prasad',
-                subject: 'Quantitative Aptitude',
-                qualification: 'M.Sc (Statistics)',
-                experience: '8 Years',
-                photo: './assets/faculty/ravi-prasad.jpg'
-            },
-            {
-                name: 'Anjali Mukherjee',
-                subject: 'Banking Awareness',
-                qualification: 'MBA (Finance)',
-                experience: '7 Years',
-                photo: './assets/faculty/anjali-mukherjee.jpg'
-            },
-            {
-                name: 'Subrata Das',
-                subject: 'Indian Polity',
-                qualification: 'LL.B, M.A (Political Science)',
-                experience: '10 Years',
-                photo: './assets/faculty/subrata-das.jpg'
-            },
-            {
-                name: 'Priti Sharma',
-                subject: 'Computer Knowledge',
-                qualification: 'M.C.A',
-                experience: '6 Years',
-                photo: './assets/faculty/priti-sharma.jpg'
-            }
-        ];
+     let facultyData = [];
+let resultsData = [];
 
-        /* Results placeholder data */
-        const resultsData = [
-            { name: 'Arjun Mehta', exam: 'SSC CGL', rank: 'Rank 147', year: '2025', initials: 'AM' },
-            { name: 'Priya Ghosh', exam: 'IBPS PO', rank: 'Rank 89', year: '2025', initials: 'PG' },
-            { name: 'Rahul Singh', exam: 'Railway RRB NTPC', rank: 'Rank 312', year: '2024', initials: 'RS' },
-            { name: 'Sneha Das', exam: 'SSC CHSL', rank: 'Rank 56', year: '2025', initials: 'SD' },
-            { name: 'Vikram Choudhury', exam: 'WBCS', rank: 'Rank 23', year: '2024', initials: 'VC' },
-            { name: 'Kavita Reddy', exam: 'SBI PO', rank: 'Rank 134', year: '2025', initials: 'KR' },
-            { name: 'Tanmoy Paul', exam: 'SSC CGL', rank: 'Rank 203', year: '2024', initials: 'TP' },
-            { name: 'Ritu Yadav', exam: 'IBPS Clerk', rank: 'Rank 42', year: '2025', initials: 'RY' }
-        ];
+
+/* ============================================
+   FACULTY: LOAD
+   ============================================ */
+async function loadFaculty() {
+    const grid = document.getElementById('facultyGrid');
+
+    try {
+        const response = await fetch('./data/faculty.json');
+
+        if (!response.ok) {
+            throw new Error('Failed to load faculty');
+        }
+
+        const data = await response.json();
+
+        facultyData = data.faculty || [];
+
+        renderFaculty();
+
+    } catch (error) {
+        console.error('Faculty loading error:', error);
+
+        grid.innerHTML = `
+            <div class="error-message">
+                <i class="fas fa-exclamation-triangle"></i>
+                Faculty information is currently unavailable.
+            </div>
+        `;
+    }
+}
+
+
+/* ============================================
+   RESULTS: LOAD
+   ============================================ */
+async function loadResults() {
+    const grid = document.getElementById('resultsGrid');
+
+    try {
+        const response = await fetch('./data/results.json');
+
+        if (!response.ok) {
+            throw new Error('Failed to load results');
+        }
+
+        const data = await response.json();
+
+        resultsData = data.results || [];
+
+        renderResults();
+
+    } catch (error) {
+        console.error('Results loading error:', error);
+
+        grid.innerHTML = `
+            <div class="error-message">
+                <i class="fas fa-exclamation-triangle"></i>
+                Results information is currently unavailable.
+            </div>
+        `;
+    }
+}
 
         /* Gallery placeholder data */
         const galleryData = [
@@ -2289,8 +2285,8 @@
             initContactForm();
             loadCourses();
             loadNotices();
-            renderFaculty();
-            renderResults();
+            loadFaculty();
+            loadResults();
             renderGallery();
             initLightbox();
             initBackToTop();
