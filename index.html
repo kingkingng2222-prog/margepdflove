@@ -269,14 +269,30 @@
             font-size: 1.4rem;
             font-weight: 900;
         }
+.nav-brand-text {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+}
 
-        .nav-brand-text {
-            font-family: var(--font-display);
-            font-size: 1.35rem;
-            font-weight: 900;
-            color: var(--accent);
-            letter-spacing: -0.5px;
-        }
+.brand-medha {
+    color: #D4A017; /* Golden */
+}
+
+.brand-mantra {
+    color: #111111; /* Black - Light Mode */
+}
+
+/* Dark Mode */
+[data-theme="dark"] .brand-medha {
+    color: #F5D76E; /* Golden */
+}
+
+[data-theme="dark"] .brand-mantra {
+    color: #FFFFFF; /* White */
+}
+
 
         .nav-links {
             display: flex;
@@ -1803,7 +1819,9 @@
         <div class="container nav-inner">
             <a href="#home" class="nav-brand" aria-label="MEDHA MANTRA Home">
                 <div class="nav-brand-icon"><img src="logo.jpg.jpeg"></div>
-                <span class="nav-brand-text">MEDHA MANTRA</span>
+                <span class="nav-brand-text">
+    <span class="brand-medha">Medha</span><span class="brand-mantra">mantra</span>
+</span>
             </a>
             <div class="nav-links" role="menubar">
                 <a href="#home" role="menuitem" class="active">Home</a>
