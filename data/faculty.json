@@ -1,19 +1,6 @@
 {
   "faculty": [
-    {
-      "name": "Dr. Rajesh Kumar",
-      "subject": "Mathematics",
-      "qualification": "M.Sc, Ph.D (Mathematics)",
-      "experience": "14 Years",
-      "photo": "./assets/faculty/rajesh-kumar.jpg"
-    },
-    {
-      "name": "Prof. Suman Devi",
-      "subject": "English Language",
-      "qualification": "M.A (English), B.Ed",
-      "experience": "11 Years",
-      "photo": "./assets/faculty/suman-devi.jpg"
-    },
+    
     {
       "name": "Amitava Sarkar",
       "subject": "Reasoning & Aptitude",
