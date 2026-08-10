@@ -2821,29 +2821,92 @@
         /* ============================================
            CONTACT FORM
            ============================================ */
-        function initContactForm() {
-            document.getElementById('contactForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const name = document.getElementById('formName').value.trim();
-                const phone = document.getElementById('formPhone').value.trim();
+         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykLgfGnd1kE-X4LUrLI1V4lwV0imCPKnZAzcWYvmXsrszKuxBE2imP6uYojbwo0whFWQ/exec";
 
-                if (!name) {
-                    showToast('Please enter your name.', true);
-                    document.getElementById('formName').focus();
-                    return;
-                }
+    function initContactForm() {
+        const form = document.getElementById('contactForm');
 
-                if (!phone || phone.length < 10) {
-                    showToast('Please enter a valid phone number.', true);
-                    document.getElementById('formPhone').focus();
-                    return;
-                }
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-                showToast('Thank you, ' + name + '! Your enquiry has been submitted successfully.');
-                e.target.reset();
-            });
-        }
+            const name = document.getElementById('formName').value.trim();
+            const phone = document.getElementById('formPhone').value.trim();
+            const email = document.getElementById('formEmail').value.trim();
+            const course = document.getElementById('formCourse').value;
+            const message = document.getElementById('formMessage').value.trim();
 
+            /* Validate Name */
+            if (!name) {
+                showToast('Please enter your name.', true);
+                document.getElementById('formName').focus();
+                return;
+            }
+
+            /* Validate Phone */
+            const cleanPhone = phone.replace(/\D/g, '');
+
+            if (cleanPhone.length < 10) {
+                showToast('Please enter a valid phone number.', true);
+                document.getElementById('formPhone').focus();
+                return;
+            }
+
+            /* Prevent double submission */
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalButtonHTML = submitButton.innerHTML;
+
+            submitButton.disabled = true;
+            submitButton.innerHTML =
+                '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+            /* Data to Google Sheet */
+            const enquiryData = {
+                name: name,
+                phone: phone,
+                email: email,
+                course: course,
+                message: message
+            };
+
+            try {
+
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    },
+                    body: JSON.stringify(enquiryData)
+                });
+
+                /*
+                 * no-cors means browser cannot read the response,
+                 * but the request will be sent to Google Apps Script.
+                 */
+
+                showToast(
+                    'Thank you, ' + name +
+                    '! Your enquiry has been submitted successfully.'
+                );
+
+                form.reset();
+
+            } catch (error) {
+
+                console.error('Google Sheet Error:', error);
+
+                showToast(
+                    'Something went wrong. Please try again.',
+                    true
+                );
+
+            } finally {
+
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonHTML;
+            }
+        });
+    }
         /* ============================================
            TOAST NOTIFICATIONS
            ============================================ */
