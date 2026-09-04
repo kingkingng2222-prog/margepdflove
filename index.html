@@ -1799,7 +1799,161 @@
                 flex-shrink: 0;
             }
         }
+/* ============================================
+   BANNER SLIDER
+   ============================================ */
 
+.banner-section {
+    width: 100%;
+    padding: 18px 0 0;
+    background: var(--bg);
+}
+
+.banner-slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--bg-secondary);
+    box-shadow: var(--shadow);
+}
+
+.banner-track {
+    display: flex;
+    width: 100%;
+    transition: transform 0.7s ease-in-out;
+}
+
+.banner-slide {
+    min-width: 100%;
+    width: 100%;
+    aspect-ratio: 16 / 5;
+    position: relative;
+    overflow: hidden;
+}
+
+.banner-slide img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+/* Previous / Next buttons */
+
+.banner-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    z-index: 5;
+    backdrop-filter: blur(5px);
+}
+
+.banner-arrow:hover {
+    background: var(--primary);
+    color: var(--accent);
+}
+
+.banner-prev {
+    left: 15px;
+}
+
+.banner-next {
+    right: 15px;
+}
+
+/* Dots */
+
+.banner-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 7px;
+    z-index: 5;
+}
+
+.banner-dot {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.banner-dot.active {
+    width: 24px;
+    border-radius: 10px;
+    background: var(--primary);
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+    .banner-section {
+        padding: 10px 0 0;
+    }
+
+    .banner-slider {
+        border-radius: 8px;
+    }
+
+    .banner-slide {
+        aspect-ratio: 16 / 8;
+    }
+
+    .banner-arrow {
+        width: 34px;
+        height: 34px;
+        font-size: 0.8rem;
+    }
+
+    .banner-prev {
+        left: 8px;
+    }
+
+    .banner-next {
+        right: 8px;
+    }
+
+    .banner-dots {
+        bottom: 7px;
+    }
+
+    .banner-dot {
+        width: 7px;
+        height: 7px;
+    }
+
+    .banner-dot.active {
+        width: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .banner-slide {
+        aspect-ratio: 16 / 9;
+    }
+
+    .banner-arrow {
+        width: 30px;
+        height: 30px;
+    }
+}
         /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
@@ -1843,7 +1997,43 @@
             </div>
         </div>
     </nav>
+<!-- ============================================
+     BANNER SLIDER
+     ============================================ -->
 
+<section class="banner-section" aria-label="Promotional banners">
+    <div class="container">
+
+        <div class="banner-slider" id="bannerSlider">
+
+            <div class="banner-track" id="bannerTrack">
+                <!-- Banners loaded by JavaScript -->
+            </div>
+
+            <button
+                class="banner-arrow banner-prev"
+                id="bannerPrev"
+                aria-label="Previous banner">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <button
+                class="banner-arrow banner-next"
+                id="bannerNext"
+                aria-label="Next banner">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
+            <div
+                class="banner-dots"
+                id="bannerDots"
+                aria-label="Banner navigation">
+            </div>
+
+        </div>
+
+    </div>
+</section>
     <!-- Mobile Navigation -->
     <div class="mobile-nav" id="mobileNav" role="menu" aria-hidden="true">
         <a href="#home" role="menuitem" class="active">Home</a>
@@ -2211,6 +2401,184 @@
         let currentNoticeSearch = '';
         let currentLightboxIndex = 0;
         let galleryImages = [];
+        /* ============================================
+   BANNER SLIDER
+   ============================================ */
+
+const bannerImages = [
+    './banner/banner1.jpg',
+    './banner/banner2.jpg',
+    './banner/banner3.jpg',
+    './banner/banner4.jpg',
+    './banner/banner5.jpg'
+];
+
+let currentBannerIndex = 0;
+let bannerInterval = null;
+
+
+/* Initialize Banner */
+
+function initBannerSlider() {
+
+    const track = document.getElementById('bannerTrack');
+    const dotsContainer = document.getElementById('bannerDots');
+    const prevButton = document.getElementById('bannerPrev');
+    const nextButton = document.getElementById('bannerNext');
+
+    if (!track || !dotsContainer) return;
+
+    /* Create slides */
+
+    track.innerHTML = bannerImages.map((image, index) => `
+        <div class="banner-slide">
+            <img
+                src="${image}"
+                alt="MEDHA MANTRA Banner ${index + 1}"
+                loading="${index === 0 ? 'eager' : 'lazy'}"
+                onerror="this.style.display='none';"
+            >
+        </div>
+    `).join('');
+
+
+    /* Create dots */
+
+    dotsContainer.innerHTML = bannerImages.map((_, index) => `
+        <button
+            class="banner-dot ${index === 0 ? 'active' : ''}"
+            data-banner-index="${index}"
+            aria-label="Go to banner ${index + 1}">
+        </button>
+    `).join('');
+
+
+    /* Update slider */
+
+    function goToBanner(index) {
+
+        if (bannerImages.length === 0) return;
+
+        currentBannerIndex =
+            (index + bannerImages.length) % bannerImages.length;
+
+        track.style.transform =
+            `translateX(-${currentBannerIndex * 100}%)`;
+
+
+        /* Update dots */
+
+        document.querySelectorAll('.banner-dot').forEach((dot, i) => {
+
+            dot.classList.toggle(
+                'active',
+                i === currentBannerIndex
+            );
+
+        });
+
+    }
+
+
+    /* Next */
+
+    function nextBanner() {
+        goToBanner(currentBannerIndex + 1);
+    }
+
+
+    /* Previous */
+
+    function previousBanner() {
+        goToBanner(currentBannerIndex - 1);
+    }
+
+
+    /* Button events */
+
+    if (nextButton) {
+        nextButton.addEventListener('click', () => {
+
+            nextBanner();
+            restartBannerAutoPlay();
+
+        });
+    }
+
+
+    if (prevButton) {
+        prevButton.addEventListener('click', () => {
+
+            previousBanner();
+            restartBannerAutoPlay();
+
+        });
+    }
+
+
+    /* Dot events */
+
+    dotsContainer.addEventListener('click', (event) => {
+
+        const dot = event.target.closest('.banner-dot');
+
+        if (!dot) return;
+
+        const index =
+            parseInt(dot.dataset.bannerIndex, 10);
+
+        goToBanner(index);
+
+        restartBannerAutoPlay();
+
+    });
+
+
+    /* Auto slide */
+
+    function startBannerAutoPlay() {
+
+        clearInterval(bannerInterval);
+
+        bannerInterval = setInterval(() => {
+
+            nextBanner();
+
+        }, 5000); // 5 seconds
+
+    }
+
+
+    function restartBannerAutoPlay() {
+
+        startBannerAutoPlay();
+
+    }
+
+
+    /* Pause when mouse is over banner */
+
+    const slider = document.getElementById('bannerSlider');
+
+    if (slider) {
+
+        slider.addEventListener('mouseenter', () => {
+            clearInterval(bannerInterval);
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            startBannerAutoPlay();
+        });
+
+    }
+
+
+    /* Start */
+
+    goToBanner(0);
+    startBannerAutoPlay();
+
+}
 
         /* Faculty placeholder data */
      let facultyData = [];
@@ -2298,6 +2666,7 @@ async function loadResults() {
         document.addEventListener('DOMContentLoaded', () => {
             initTheme();
             initNavigation();
+            initBannerSlider();
             initScrollAnimations();
             initCounterAnimation();
             initContactForm();
